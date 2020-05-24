@@ -1,31 +1,30 @@
 package atm;
 
+import exceptions.PINException;
+
 public class Tarjeta {
 
 	private String numeroDeTarjeta;
 	private Integer PIN;
-	private String CUIT;
 	
 	
-	public Tarjeta(String numeroDeTarjeta, int PIN, String CUIT) {
+	public Tarjeta(String numeroDeTarjeta, Integer PIN) {
 		
-		
+		this.numeroDeTarjeta = numeroDeTarjeta;
+		this.PIN = PIN;
 	}
 	
 	
 	public String getNumeroDeTarjeta() {
 		
 		return numeroDeTarjeta;
-	}
+	}	
 	
 	
-	public String getCUIT() {
+	public void validarTarjeta(int PIN) throws PINException {
 		
-		return CUIT;
-	}
-	
-	
-	public void validarTarjeta(int PIN) {
-		
+		if(PIN != this.PIN){
+			throw new PINException("El numero de PIN ingresado es incorrecto.");
+		}
 	}
 }
