@@ -1,6 +1,7 @@
 package atm;
 
-import java.util.Stack;
+
+import java.math.BigDecimal;
 
 import exceptions.CajaAhorroException;
 
@@ -24,9 +25,9 @@ public abstract class CajaDeAhorro extends Cuenta{
 	 * @param saldo 		el saldo con el que va a iniciar la cuenta.
 	 * @param movimientos	los movimientos iniciales que tiene la cuenta.
 	 */
-	public CajaDeAhorro(String alias, Double saldo, Stack<Movimiento> movimientos) {
+	public CajaDeAhorro(String alias, BigDecimal saldo) {
 		
-		super(alias, saldo, movimientos);
+		super(alias, saldo);
 	}
 	
 	
@@ -37,9 +38,9 @@ public abstract class CajaDeAhorro extends Cuenta{
 	 * @param monto Monto a sumar al saldo de la cuenta
 	 */
 	@Override
-	public void sumarSaldo(double monto) {
+	public void sumarSaldo(BigDecimal monto) {
 		
-		saldo += monto;
+		saldo = saldo.add(monto);
 	}
 	
 	
@@ -53,13 +54,12 @@ public abstract class CajaDeAhorro extends Cuenta{
 	 * @see 	ExcepcionCajaAhorro
 	 */
 	@Override
-	public void restarSaldo(double monto) throws CajaAhorroException {
+	public void restarSaldo(BigDecimal monto) throws CajaAhorroException {
 		
-		double saldoDescontado = this.saldo - monto;
-		
-		if(!(saldoDescontado < 0) ) {
+		if( saldo.compareTo(monto) >= 0 ) {
 			
-			this.saldo = saldoDescontado;
+			saldo = saldo.subtract(monto);
+		
 		} else {
 			
 			throw new CajaAhorroException("El saldo a extraer es mayor al saldo de la Caja de Ahorro.");

@@ -1,6 +1,9 @@
 package atm;
 
-import java.util.Stack;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import exceptions.CuentaException;
 
@@ -16,9 +19,9 @@ import exceptions.CuentaException;
 
 public abstract class Cuenta implements Comparable<Cuenta> {
 
-	protected Double saldo;
+	protected BigDecimal saldo;
 	protected String alias;
-	protected Stack<Movimiento> movimientos;
+	protected List<Movimiento> movimientos;
 	
 	/***
 	 * Cada Clase Concreta que extiende de Cuenta sera responsable de restar y
@@ -26,13 +29,13 @@ public abstract class Cuenta implements Comparable<Cuenta> {
 	 *
 	 * @param alias Alias de la cuenta
 	 * @param saldo Saldo inicial de la cuenta
-	 * @param Stack<Movimiento> los movimientos de la cuenta
+	 * @param List<Movimiento> los movimientos de la cuenta
 	 */
-	public Cuenta(String alias, Double saldo, Stack<Movimiento> movimientos) {
+	public Cuenta(String alias, BigDecimal saldo) {
 		
 		this.alias = alias;
 		this.saldo = saldo;
-		this.movimientos = movimientos;
+		movimientos = new ArrayList<Movimiento>();
 	}
 
 	
@@ -41,7 +44,7 @@ public abstract class Cuenta implements Comparable<Cuenta> {
 	 * 
 	 * @return Saldo
 	 */
-	public double getSaldo(){
+	public BigDecimal getSaldo(){
 		
 		return saldo;
 	}
@@ -61,12 +64,23 @@ public abstract class Cuenta implements Comparable<Cuenta> {
 	/***
 	 * Este metodo retorna los movientos de la cuenta
 	 * 
-	 * @return Stack<Movimiento> movimientos que tiene la cuenta
+	 * @return List<Movimiento> movimientos que tiene la cuenta
 	 */
-	public Stack<Movimiento> obtenerMovimientos() {
+	public List<Movimiento> getMovimientos() {
 		
 		return movimientos;
 	}
+	
+	
+	/***
+	 * Este metodo retorna el ultimo movimiento de la cuenta
+	 * 
+	 * @return Movimiento ultimo movimiento de la cuenta
+	 */
+	public Movimiento getLastMovimiento() {
+		
+		return movimientos.get(movimientos.size() - 1);
+	} 
 	
 	
 	/***
@@ -98,7 +112,7 @@ public abstract class Cuenta implements Comparable<Cuenta> {
 	 * 
 	 * @param 	Monto	monto a gregar a la cuenta
 	 */
-	public abstract void sumarSaldo(double monto);
+	public abstract void sumarSaldo(BigDecimal monto);
 	
 	
 	/***
@@ -110,5 +124,5 @@ public abstract class Cuenta implements Comparable<Cuenta> {
 	 * 
 	 * @see 	ExcepcionCuenta
 	 */
-	public abstract void restarSaldo(double monto) throws CuentaException;
+	public abstract void restarSaldo(BigDecimal monto) throws CuentaException;
 }

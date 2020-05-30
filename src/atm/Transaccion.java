@@ -1,17 +1,21 @@
 package atm;
 
+import java.math.BigDecimal;
+
 import exceptions.CuentaException;
+import exceptions.DepositoException;
+import exceptions.ExtraccionException;
 
 public abstract class Transaccion {
 
-	protected Cuenta cuentaOrigen;
+	protected Cuenta origen;
 	
 	
 	public Transaccion(Cuenta origen) {
 		
-		this.cuentaOrigen = origen;
+		this.origen = origen;
 	}
 	
 	
-	protected abstract void ajustarSaldo(Double ajuste) throws CuentaException;
+	public abstract void ajustarSaldo(BigDecimal ajuste) throws CuentaException, DepositoException, ExtraccionException;
 }

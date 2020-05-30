@@ -1,6 +1,6 @@
 package atm;
 
-import java.util.Stack;
+import java.math.BigDecimal;
 
 import exceptions.CuentaCorrienteException;
 
@@ -16,7 +16,8 @@ import exceptions.CuentaCorrienteException;
 
 public class CuentaCorriente extends Cuenta{
 	
-	private Double descubierto;
+	private BigDecimal descubierto;
+	private BigDecimal descubiertoInicial;
 	
 	/***
 	 * Crea una Cuenta Corriente con los parametros que demanda
@@ -28,10 +29,11 @@ public class CuentaCorriente extends Cuenta{
 	 * @param descubierto 	el valor del descubierto con signo positovo
 	 */
 	
-	public CuentaCorriente(String alias, Double saldo, Stack<Movimiento> movimientos, Double descubierto) {
+	public CuentaCorriente(String alias, BigDecimal saldo, BigDecimal descubierto) {
 	
-		super(alias, saldo, movimientos);
-		this.descubierto = descubierto * -1;
+		super(alias, saldo);
+		this.descubierto = descubierto.negate();
+		this.descubiertoInicial = descubierto.negate();
 	}
 	
 	
@@ -42,9 +44,19 @@ public class CuentaCorriente extends Cuenta{
 	 * @param monto Monto a sumar al saldo de la cuenta
 	 */
 	@Override
-	public void sumarSaldo(double monto) {
+	public void sumarSaldo(BigDecimal monto) {
 		
-		saldo += monto;
+		if( descubierto.compareTo(descubiertoInicial) == 0 ) {
+			
+			saldo = saldo.add(monto);
+			
+		} else {
+			
+			BigDecimal diferencia = descubiertoInicial.subtract(descubierto);
+			descubierto = descubierto.add(diferencia);
+			monto = monto.subtract(diferencia);
+			saldo = saldo.add(monto);
+		}
 	}
 	
 	
@@ -58,13 +70,18 @@ public class CuentaCorriente extends Cuenta{
 	 * @see 	ExcepcionCuentaCorriente
 	 */
 	@Override
-	public void restarSaldo(double monto) throws CuentaCorrienteException {
+	public void restarSaldo(BigDecimal monto) throws CuentaCorrienteException {
 		
-		double saldoDescontado = this.saldo - monto;
-		
-		if(!(saldoDescontado < descubierto) ) {
+		if( saldo.compareTo(monto) >= 0 ) {
 			
-			this.saldo = saldoDescontado;
+			saldo = saldo.subtract(monto);
+			
+		} else if( descubierto.compareTo(monto) >= 0 ) {	
+			
+			monto = monto.subtract(saldo);
+			saldo = new BigDecimal(0);
+			descubierto = descubierto.subtract(monto);
+			
 		} else {
 			
 			throw new CuentaCorrienteException("El monto a extraer excede el descubierto de su cuenta.");

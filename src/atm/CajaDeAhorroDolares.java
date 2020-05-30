@@ -1,6 +1,6 @@
 package atm;
 
-import java.util.Stack;
+import java.math.BigDecimal;
 
 /***
  * 
@@ -22,9 +22,9 @@ public class CajaDeAhorroDolares extends CajaDeAhorro {
 	 * @param saldo 		el saldo con el que va a iniciar la cuenta.
 	 * @param movimientos	los movimientos iniciales que tiene la cuenta.
 	 */
-	public CajaDeAhorroDolares(String alias, Double saldo, Stack<Movimiento> movimientos) {
+	public CajaDeAhorroDolares(String alias, BigDecimal saldo) {
 		
-		super(alias, saldo, movimientos);
+		super(alias, saldo);
 	}
 
 }

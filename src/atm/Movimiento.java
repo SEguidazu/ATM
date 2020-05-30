@@ -1,18 +1,19 @@
 package atm;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Movimiento {
 
 	private static AtomicInteger count = new AtomicInteger(0);
 	private Integer id;
-	private Date fecha;
+	private LocalDate fecha;
 	private String concepto, aliasOrigen, aliasDestino;
-	private Double importe;
+	private BigDecimal importe;
 	
 	
-	public Movimiento(Date fecha, String concepto, String aliasOrigen, Double importe) {
+	public Movimiento(LocalDate fecha, String concepto, String aliasOrigen, BigDecimal importe) {
 		
 		this.fecha = fecha;
 		this.concepto = concepto;
@@ -21,7 +22,7 @@ public class Movimiento {
 		this.id = count.incrementAndGet();
 	}
 	
-	public Movimiento(Date fecha, String concepto, String aliasOrigen, String aliasDestino, Double importe) {
+	public Movimiento(LocalDate fecha, String concepto, String aliasOrigen, String aliasDestino, BigDecimal importe) {
 		
 		this.fecha = fecha;
 		this.concepto = concepto;
@@ -38,7 +39,7 @@ public class Movimiento {
 	}
 	
 	
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		
 		return fecha;
 	}
@@ -62,7 +63,7 @@ public class Movimiento {
 	}
 	
 	
-	public Double getImporte() {
+	public BigDecimal getImporte() {
 		
 		return importe;
 	}
